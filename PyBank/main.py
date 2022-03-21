@@ -6,6 +6,8 @@ import csv
 
 csvpath = os.path.join("Resources", "budget_data.csv")
 
+
+
 #read csv file
 with open(csvpath) as csvfile:
 
@@ -16,13 +18,20 @@ with open(csvpath) as csvfile:
     header = next(csvreader)
     print(f"{header}")
 
-    #read each row following and count as read
+    #read each row following and count/calculate table values as read
     count = 0
+    total = 0
     for row in csvreader:
         print(row)
         count += 1
+        net_total = int(row[1])
+        total += net_total
 
+    #print data in table
+    print("Financial Analysis")
+    print("-----------------")
     #print total months
     print("Total Months: " + str(count))
+    print("Total: $" + str(total))
 
 
