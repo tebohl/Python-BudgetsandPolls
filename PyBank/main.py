@@ -7,6 +7,7 @@ import csv
 csvpath = os.path.join("Resources", "budget_data.csv")
 
 #define empty lists for values and calculations below
+monthyear = []
 month_to_month = []
 
 #read csv file
@@ -14,39 +15,48 @@ with open(csvpath) as csvfile:
 
     #csv reader shows delimiter
     csvreader = csv.reader(csvfile, delimiter= ",")
-
+   
     #read header row
     header = next(csvreader)
-    print(f"{header}")
+    
+    # grab first row of data
+    first_row = next(csvreader)
+    #store date information in list
+    monthyear.append(first_row[0])
+    # first profit value
+    profit_initial = first_row[1]
 
-    #read each row following
-    count = 0
-    net_total = 0
+    #read each row following, beginning variables with first row values
+    count = 1
+    net_total = int(profit_initial)
+
     for row in csvreader:
-        print(row)
+        #store date information in list
+        monthyear.append(row[0])
+
+        #find profit change and store in list
+        profit_change = int(row[1]) - int(profit_initial)
+        month_to_month.append(profit_change)
+
         #count months (rows) for total months
         count += 1
-        total = int(row[1])
-        net_total += total
+        net_total += int(row[1])
 
-    #reset csvreader to read through rows a second time
-    csvfile.seek(0)    
-    header = next(csvreader)
+        #reset profit initial to current value for next loop
+        profit_initial = row[1]
+        
     
-    #find change between consecutive months and store in list
-    for row in csvreader:
-        currentrow = row[1]
-        nextrowtotal= next(csvreader)
-        change = int(nextrowtotal[1]) - int(currentrow)
-        month_to_month.append(change)
-
 
     #print data in table
     print("Financial Analysis")
     print("-----------------")
     print("Total Months: " + str(count))
     print("Total: $" + str(net_total))
-    print(month_to_month)
+    print("Average Change: " + str(sum(month_to_month)/count))
+    print("Greatest Increase in Profits: " + str(max(month_to_month)))
+    print("Greatest Decrease in Profits: " + str(min(month_to_month)))
+
+    
     
 
 
