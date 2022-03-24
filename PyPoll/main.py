@@ -7,6 +7,7 @@ csvpath = os.path.join("Resources", "election_data.csv")
 
 #define dictionaries for values below with total votes starting at zero
 votes = 0
+candidate_names = []
 candidates = {}
 percentages = {}
 
@@ -32,9 +33,12 @@ with open(csvpath) as csvfile:
         else:
             candidates[candidate_name] = 1
             percentages[candidate_name] = candidates[candidate_name]/votes*100
+            #store candidate name in list
+            candidate_names.append(row[2])
        
         #find max key       
         winner = max(candidates,key=candidates.get)
+
 
 #create variable for text file with printed results
 election_results = f"""
@@ -42,9 +46,9 @@ Election Results
 ----------------
 Total Votes: {votes}
 ----------------
-Charles Casper Stockham: {round(percentages["Charles Casper Stockham"], 3)}% ({candidates["Charles Casper Stockham"]})
-Diana DeGette: {round(percentages["Diana DeGette"], 3)} % ({candidates["Diana DeGette"]})
-Raymon Anthony Doane: {round(percentages["Raymon Anthony Doane"], 3)} % ({candidates["Raymon Anthony Doane"]})
+{candidate_names[0]}: {round(percentages["Charles Casper Stockham"], 3)}% ({candidates["Charles Casper Stockham"]})
+{candidate_names[1]}: {round(percentages["Diana DeGette"], 3)} % ({candidates["Diana DeGette"]})
+{candidate_names[2]}: {round(percentages["Raymon Anthony Doane"], 3)} % ({candidates["Raymon Anthony Doane"]})
 Winner: {winner}
 ----------------
 """
