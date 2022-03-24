@@ -45,18 +45,14 @@ with open(csvpath) as csvfile:
         #reset profit initial to current value for next loop
         profit_initial = row[1]
         
-    
 
     #print data in table
     print("Financial Analysis")
     print("-----------------")
     print("Total Months: " + str(count))
     print("Total: $" + str(net_total))
-    print("Average Change: " + str(sum(month_to_month)/count))
-    print("Greatest Increase in Profits: " + str(max(month_to_month)))
-    print("Greatest Decrease in Profits: " + str(min(month_to_month)))
-
-    
-    
-
-
+    print("Average Change: " + str(round((sum(month_to_month)/count),0)))
+    print("Greatest Increase in Profits: " + monthyear[79] + " ($" + str(max(month_to_month)) + ")")
+    #print(month_to_month.index(1862002))
+    print("Greatest Decrease in Profits: " + monthyear[49] + " ($" + str(min(month_to_month)) + ")")
+    #print(month_to_month.index(-1825558))
