@@ -53,8 +53,9 @@ Winner: {winner}
 ----------------
 """
 
-#write new text file with results
+#print analysis to terminal
 print(election_results)
 
-with open("poll_results.txt", "w") as new_file:
+#write new text file with results
+with open("Analysis/poll_results.txt", "w") as new_file:
         new_file.write(election_results)
