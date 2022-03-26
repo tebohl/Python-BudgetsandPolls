@@ -7,7 +7,6 @@ csvpath = os.path.join("Resources", "election_data.csv")
 
 #define dictionaries for values below with total votes starting at zero
 votes = 0
-candidate_names = []
 candidates = {}
 percentages = {}
 
@@ -26,36 +25,46 @@ with open(csvpath) as csvfile:
         #store candidate name in variable
         candidate_name = row[2]
         
-        #find candidate name and store in dictionary or add to votes
+        #find candidate name and store in dictionary or add to votes for exisitng key
         if candidate_name in candidates.keys():
             candidates[candidate_name] +=1
             percentages[candidate_name] = candidates[candidate_name]/votes*100
         else:
             candidates[candidate_name] = 1
-            percentages[candidate_name] = candidates[candidate_name]/votes*100
-            #store candidate name in list
-            candidate_names.append(row[2])
+            percentages[candidate_name] = candidates[candidate_name]/votes*100       
        
         #find max key       
         winner = max(candidates,key=candidates.get)
 
+#print analysis to terminal
+print("Election Results")
+print("----------------")
+print("Total Votes: " + str(votes))
 
-#create variable for text file with printed results
+#iterate through keys and values in dictionaries
+for key,value in percentages.items():
+    print(f' {key} : {round(value,3)}%')
+
+for key,value in candidates.items():
+    print(f"({value})")
+
+print("-----------------")
+print("Winner: " + str(winner))
+print("-----------------")
+
+#define variable for new text file with results
+newline = "\n"
 election_results = f"""
 Election Results
 ----------------
 Total Votes: {votes}
+{newline.join(f"{key}: {(round(value,3))}%" for key,value in percentages.items())}
+{newline.join(f"{value}" for value in candidates.items())}
 ----------------
-{candidate_names[0]}: {round(percentages["Charles Casper Stockham"], 3)}% ({candidates["Charles Casper Stockham"]})
-{candidate_names[1]}: {round(percentages["Diana DeGette"], 3)} % ({candidates["Diana DeGette"]})
-{candidate_names[2]}: {round(percentages["Raymon Anthony Doane"], 3)} % ({candidates["Raymon Anthony Doane"]})
 Winner: {winner}
 ----------------
 """
 
-#print analysis to terminal
-print(election_results)
-
 #write new text file with results
 with open("Analysis/poll_results.txt", "w") as new_file:
-        new_file.write(election_results)
+    new_file.write(election_results)
